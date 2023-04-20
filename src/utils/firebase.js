@@ -1,20 +1,27 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import {getDatabase} from "firebase/database";
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: 'AIzaSyBG0kDf2TQECLLppQeX017fuGF8hNHRQME',
-    authDomain: 'travel-b0c0c.firebaseapp.com',
-    projectId: 'travel-b0c0c',
-    storageBucket: 'travel-b0c0c.appspot.com',
-    messagingSenderId: '604573273292',
-    appId: '1:604573273292:web:5de3828608bf7c8b6dc669',
+    apiKey: "AIzaSyCizp8p01OC-mbTjqTL7xSPCxSJIc4XSt0",
+    authDomain: "recupera-27d9f.firebaseapp.com",
+    projectId: "recupera-27d9f",
+    storageBucket: "recupera-27d9f.appspot.com",
+    messagingSenderId: "268366413976",
+    appId: "1:268366413976:web:bfa4cb00f7226c1b8a10ed",
+    databaseURL: 'https://recupera-27d9f-default-rtdb.firebaseio.com/',
 };
 
 // Initialize Firebase
 export const initiFirebase = initializeApp(firebaseConfig);
+export const database = getDatabase(initiFirebase);
+
+
+
 
 
 /*
