@@ -1,46 +1,16 @@
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, ScrollView} from "react-native";
 import {Button, Icon, Input} from "react-native-elements";
-import React from "react";
+import React, {useState} from "react";
 import {Field, useFormik} from "formik";
 import * as Yup from "yup";
 
 import Toast from "react-native-toast-message";
 import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
-import {UploadImage} from "../components/UploadImage";
+import {writeUserData} from "../utils/newContact";
 
-export const FormContactScreen = () => {
-    const dbRef = ref(getDatabase());
-    /*function writeUserData( nombre, imagen) {
+export const FormContactScreen = ({}) => {
 
 
-        let numId = 1;
-        get(child(dbRef, `lugares/`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                // Obtener el número de elementos en el objeto
-                const conteo = Object.keys(data).length;
-                numId = conteo + 1;
-                const db = getDatabase();
-                set(ref(db, 'lugares/' + numId), {
-                    id: numId,
-                    nombre: nombre,
-                    imagen: imagen,
-                });
-            } else {
-                numId = 1;
-                const db = getDatabase();
-                set(ref(db, 'lugares/' + numId), {
-                    id: numId,
-                    nombre: nombre,
-                    imagen: imagen,
-                });
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-
-
-    }*/
     const fileUpload = async (file) => {
         const cloudUrl = 'https://api.cloudinary.com/v1_1/josamv/upload';
 
@@ -56,7 +26,7 @@ export const FormContactScreen = () => {
             });
             if (resp.ok) {
                 const cloudResp = await resp.json();
-                return cloudResp.secure_url;
+                return cloudResp.url;
             } else {
                 throw await resp.json();
             }
@@ -65,32 +35,24 @@ export const FormContactScreen = () => {
         }
     };
 
-    async function writeUserData(nombre, imagen) {
-
-        try {
-            const fileUrl = await fileUpload(imagen);
-            console.log(fileUrl.imagen);
-        }catch (e) {
-            console.log(e);
-        }
-
-        /*const imageUrl = response.data.secure_url;*/ // Obtiene la URL de la imagen subida
-
-    }
 
     const formik = useFormik({
         initialValues: {
             nombre: '',
-            imagen: '',
+            telefono: '',
+            colonia: '',
+            calle: '',
+            cp: '',
         },
         validationSchema: Yup.object({
             nombre: Yup.string()
                 .required('El nombre es obligatorio'),
+            telefono: Yup.string().required('El telefono es obligatorio')
         }),
         validateOnChange: false,
         onSubmit: async (formData) => {
             try {
-                writeUserData(formData.nombre, formData.telefono, formData.direccion, formData.imagen);
+                await writeUserData(formData.nombre, formData.telefono, formData.colonia, formData.calle, formData.cp);
             } catch (error) {
                 Toast.show({
                     type: 'error',
@@ -103,43 +65,80 @@ export const FormContactScreen = () => {
         },
     });
     return (
-        <View style={styles.viewForm}>
-            <UploadImage/>
-            <Input
-                placeholder='Nombre'
-                containerStyle={styles.input}
-                rightIcon={
-                    <Icon
-                        type='material-community'
-                        name='at'
-                        iconStyle={styles.icon}
-                    />
-                }
-                onChangeText={(text) => formik.setFieldValue('nombre', text)}
-                errorMessage={formik.errors.nombre}
-            />
-            <Button
-                title='Registrar contacto'
-                containerStyle={styles.containerBtn}
-                buttonStyle={styles.btn}
-                onPress={formik.handleSubmit}
-                loading={formik.isSubmitting}
-            />
+        <ScrollView>
+            <View style={styles.viewForm}>
+                <Input
+                    placeholder='Nombre'
+                    containerStyle={styles.input}
 
-        </View>
+                    onChangeText={(text) => formik.setFieldValue('nombre', text)}
+                    errorMessage={formik.errors.nombre}
+                />
+                <Input
+                    placeholder='Telefono'
+                    containerStyle={styles.input}
+                    onChangeText={(number) => formik.setFieldValue('telefono', number)}
+                    errorMessage={formik.errors.telefono}
+                />
+                <Input
+                    placeholder='Colonia'
+                    containerStyle={styles.input}
+                    onChangeText={(text) => formik.setFieldValue('colonia', text)}
+                    errorMessage={formik.errors.colonia}
+                />
+                <Input
+                    placeholder='Calle'
+                    containerStyle={styles.input}
+                    onChangeText={(text) => formik.setFieldValue('calle', text)}
+                    errorMessage={formik.errors.calle}
+                />
+                <Input
+                    placeholder='Código postal'
+                    containerStyle={styles.input}
+                    onChangeText={(text) => formik.setFieldValue('cp', text)}
+                    errorMessage={formik.errors.cp}
+                />
+                <Button
+                    title='Registrar contacto'
+                    containerStyle={styles.containerBtn}
+                    buttonStyle={styles.btn}
+                    onPress={formik.handleSubmit}
+                    loading={formik.isSubmitting}
+                />
+
+            </View>
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
     viewForm: {
-        marginTop: 30,
-
+        marginVertical: 30,
+        paddingHorizontal: 15,
+        paddingTop: 40,
+        width: '80%',
+        backgroundColor: 'white',
+        borderRadius: 20,
+        alignSelf: 'center',
+    },
+    input: {
+        marginBottom: 15,
+    },
+    icon: {
+        color: 'gray',
     },
     containerBtn: {
-        width: "95%",
-        marginTop: 20,
-
+        width: '70%',
+        alignSelf: 'center',
     },
     btn: {
-        backgroundColor: "green"
-    }
-})
+        backgroundColor: 'green',
+        borderRadius: 40,
+        marginBottom: 20,
+    },
+});
+
+
+
+
+
+

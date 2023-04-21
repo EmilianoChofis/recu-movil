@@ -3,8 +3,8 @@ import {AntDesign} from "@expo/vector-icons";
 import {Image, StyleSheet, View, Text} from "react-native";
 import {useState} from "react";
 import * as ImagePicker from 'expo-image-picker';
-export const UploadImage = (props) => {
-    const [image, setImage] = useState(null);
+export const UploadImage = ({setImage, image}) => {
+
     const addImage = async () => {
         let _image = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -15,17 +15,15 @@ export const UploadImage = (props) => {
         //muestra la data de la imagen
         console.log(JSON.stringify(_image));
 
-
-        const uri = _image.assets[0].uri;
-        const fileName = uri.substring(uri.lastIndexOf('/') + 1);
-
-        // Mostrar el nombre del archivo en la consola
-        console.log('Nombre del archivo:', fileName);
+        console.log(_image.assets[0].uri)
+        setImage(_image.assets[0].uri);
 
         if (!_image.canceled) {
             setImage(_image.assets[0].uri);
         }
     }
+
+
     return(
         <View style={imageUploaderStyles.container}>
             {

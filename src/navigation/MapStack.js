@@ -1,14 +1,15 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {ProfileScreen} from "../screens/ProfileScreen";
 import {MapScreen} from "../screens/MapScreen";
 
 
 const Stack = createNativeStackNavigator();
-export const ProfileStack = () => {
+
+export const MapStack = (props) => {
+    const {navigation} = props
+    const {navigate} = navigation
     return (
         <Stack.Navigator>
-            <Stack.Screen name={"profileS"} component={ProfileScreen} options={{title:"Perfil"}}/>
-
+            <Stack.Screen name={"mapS"} component={MapScreen} options={{title:"Mapa"}}/>
         </Stack.Navigator>
     )
 }
