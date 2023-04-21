@@ -1,48 +1,53 @@
 
-import {View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import LoginForm from "../components/Auth/LoginForm";
-import {useNavigation} from "@react-navigation/native";
+import { Image } from 'react-native-elements'
+import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export const LoginScreen = (props) => {
     const navigation = useNavigation();
 
-    const irARegistro = () => {
-        navigation.navigate('registerS');
-        console.log("irARegistro")
-    };
-    return (
-        <View>
+    // const irARegistro = () => {
+    //     navigation.navigate('registerS');
+    //     console.log("irARegistro")
+    // };
 
-            <View style={styles.contentForm}>
+    
+    return (
+        
+        <KeyboardAwareScrollView style={styles.keyboard}>
+            <View style={styles.view}>
+                <Image source={require('../../assests/img/desconocido.png')}
+                    style={styles.image} />
+                <Text style={styles.title}>Iniciar Sesión</Text>
                 <LoginForm />
-                <Text style={styles.text}>
-                    ¿Aún no tienes una cuenta?{' '}
-                    <Text style={styles.textBtn} onPress={irARegistro}>
-                        Registrate
-                    </Text>
-                </Text>
             </View>
-        </View>
+        </KeyboardAwareScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-    logo: {
-        width: '100%',
+    image: {
+        width: 150,
         height: 150,
-        resizeMode: 'contain',
-        marginTop: 30,
+        alignSelf: 'center',
+        marginTop: 50,
+        marginBottom: 20,
+        borderRadius: 100,
     },
-    contentForm: {
-        marginHorizontal: 30,
+    view: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        height: "100%",
     },
-    text: {
-        marginTop: 15,
-        marginHorizontal: 10,
-        color: '#0D5BD7',
+    keyboard: {
+        backgroundColor: '#fff',
     },
-    textBtn: {
+    title: {
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#0D5BD7',
-    }
+        textAlign: 'center',
+    },
 })

@@ -5,7 +5,7 @@ import {LoginScreen} from "./LoginScreen";
 export const IndexScreen = (props) => {
     const {navigation} = props
     const {navigate} = navigation
-    const [session, setSession] = useState(true);
+    const [session, setSession] = useState(false);
 
     return session ? (
         <View>

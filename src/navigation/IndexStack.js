@@ -5,7 +5,7 @@ import {IndexScreen} from "../screens/IndexScreen";
 import {ContactScreen} from "../screens/ContactScreen";
 import {FormContactScreen} from "../screens/FormContactScreen";
 import {LoginScreen} from "../screens/LoginScreen";
-import {RegisterScreen} from "../screens/RegisterScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -20,5 +20,3 @@ export default function IndexStack() {
    </Stack.Navigator>
   )
 }
-
-const styles = StyleSheet.create({})
