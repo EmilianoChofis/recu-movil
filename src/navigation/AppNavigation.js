@@ -8,16 +8,15 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 const Tab = createBottomTabNavigator();
 
 export default function AppNavigation() {
-    const [session, setSession] = useState(true);
+    const [session, setSession] = useState(null);
 
-   /* useEffect(()=>{
+    useEffect(()=>{
         const auth = getAuth();
         onAuthStateChanged(auth, (user)=>{
             setSession(!!user)
         })
         setSession(true)
     },[])
-*/
 
     return session ? (
 
