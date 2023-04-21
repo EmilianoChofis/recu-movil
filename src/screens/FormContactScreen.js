@@ -3,13 +3,20 @@ import {Button, Icon, Input} from "react-native-elements";
 import React, {useState} from "react";
 import {Field, useFormik} from "formik";
 import * as Yup from "yup";
-
+import MapView, {Marker} from "react-native-maps";
 import Toast from "react-native-toast-message";
 import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
 import {writeUserData} from "./functions/newContact";
+import { getAuth } from 'firebase/auth';
 
 export const FormContactScreen = ({}) => {
     const dbRef = ref(getDatabase());
+    const [origin, setOrigin] = React.useState(
+        {
+            latitude: 18.951040,
+            longitude: -99.193285,
+        }
+    );
 
     const fileUpload = async (file) => {
         const cloudUrl = 'https://api.cloudinary.com/v1_1/josamv/upload';
@@ -34,7 +41,7 @@ export const FormContactScreen = ({}) => {
             throw error;
         }
     };
-    async function writeUserData(nombre, telefono, colonia, calle, cp) {
+    async function writeUserData(nombre, telefono, latitud, longitud) {
         try {
 
             let numId = 1;
@@ -49,9 +56,9 @@ export const FormContactScreen = ({}) => {
                         id: numId,
                         nombre: nombre,
                         telefono: telefono,
-                        colonia: colonia,
-                        calle: calle,
-                        cp: cp,
+                        longitud: latitud,
+                        latitud: longitud,
+                        userowner:getAuth().currentUser.email
 
                     });
                 } else {
@@ -61,9 +68,8 @@ export const FormContactScreen = ({}) => {
                         id: numId,
                         nombre: nombre,
                         telefono: telefono,
-                        colonia: colonia,
-                        calle:calle,
-                        cp: cp,
+                        longitud: latitud,
+                        latitud: longitud,
                     });
                 }
             }).catch((error) => {
@@ -78,9 +84,9 @@ export const FormContactScreen = ({}) => {
         initialValues: {
             nombre: '',
             telefono: '',
-            colonia: '',
-            calle: '',
-            cp: '',
+            latitud: '',
+            longitud: '',
+
         },
         validationSchema: Yup.object({
             nombre: Yup.string()
@@ -90,7 +96,7 @@ export const FormContactScreen = ({}) => {
         validateOnChange: false,
         onSubmit: async (formData) => {
             try {
-                await writeUserData(formData.nombre, formData.telefono, formData.colonia, formData.calle, formData.cp);
+                await writeUserData(formData.nombre, formData.telefono, formData.latitud, formData.longitud);
             } catch (error) {
                 Toast.show({
                     type: 'error',
@@ -103,12 +109,11 @@ export const FormContactScreen = ({}) => {
         },
     });
     return (
-        <ScrollView>
+
             <View style={styles.viewForm}>
                 <Input
                     placeholder='Nombre'
                     containerStyle={styles.input}
-
                     onChangeText={(text) => formik.setFieldValue('nombre', text)}
                     errorMessage={formik.errors.nombre}
                 />
@@ -118,24 +123,25 @@ export const FormContactScreen = ({}) => {
                     onChangeText={(number) => formik.setFieldValue('telefono', number)}
                     errorMessage={formik.errors.telefono}
                 />
-                <Input
-                    placeholder='Colonia'
-                    containerStyle={styles.input}
-                    onChangeText={(text) => formik.setFieldValue('colonia', text)}
-                    errorMessage={formik.errors.colonia}
-                />
-                <Input
-                    placeholder='Calle'
-                    containerStyle={styles.input}
-                    onChangeText={(text) => formik.setFieldValue('calle', text)}
-                    errorMessage={formik.errors.calle}
-                />
-                <Input
-                    placeholder='Código postal'
-                    containerStyle={styles.input}
-                    onChangeText={(text) => formik.setFieldValue('cp', text)}
-                    errorMessage={formik.errors.cp}
-                />
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: origin.latitude,
+                        longitude: origin.longitude,
+                        latitudeDelta: 0.0,
+                        longitudeDelta: 0.04,
+                    }}
+                >
+                    <Marker draggable={true}
+                            coordinate={origin}
+                            onDragEnd={(direction) => {setOrigin(direction.nativeEvent.coordinate)
+                                console.log(direction.nativeEvent.coordinate)
+                                formik.setFieldValue('latitud', direction.nativeEvent.coordinate.latitude)
+                                formik.setFieldValue('longitud', direction.nativeEvent.coordinate.longitude)}
+                            }
+                    />
+                </MapView>
+
                 <Button
                     title='Registrar contacto'
                     containerStyle={styles.containerBtn}
@@ -145,7 +151,7 @@ export const FormContactScreen = ({}) => {
                 />
 
             </View>
-        </ScrollView>
+
     )
 }
 const styles = StyleSheet.create({
@@ -154,6 +160,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: 40,
         width: '80%',
+        height: '100%',
         backgroundColor: 'white',
         borderRadius: 20,
         alignSelf: 'center',
@@ -172,6 +179,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
         borderRadius: 40,
         marginBottom: 20,
+    },
+    map: {
+        width: '100%',
+        height: "50%",
     },
 });
 
