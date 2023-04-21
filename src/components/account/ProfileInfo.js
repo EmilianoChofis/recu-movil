@@ -25,7 +25,7 @@ export const ProfileInfo = ({ setVisibleLoading, setTextLoading }) => {
 		setVisibleLoading(true);
 		const response = await fetch(uri);
 		const blob = await response.blob();
-		const storageRef = ref(getStorage(), `imgProfile/${uid}`);
+		const storageRef = ref(getStorage(), `profile/${uid}`);
 		uploadBytes(storageRef, blob).then((snapshot) => {
 			updatePhoto(snapshot.metadata.fullPath);
 		});
@@ -52,7 +52,7 @@ export const ProfileInfo = ({ setVisibleLoading, setTextLoading }) => {
 				containerStyle={styles.avatar}
 				source={{ uri: photo }}
 			>
-				<Avatar.Accessory size={25} onPress={changePhoto} />
+				<Avatar.Accessory size={30} onPress={changePhoto} />
 			</Avatar>
 			<View>
 			
