@@ -8,6 +8,7 @@ import Toast from "react-native-toast-message";
 import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
 import {writeUserData} from "./functions/newContact";
 import { getAuth } from 'firebase/auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export const FormContactScreen = ({}) => {
@@ -104,7 +105,7 @@ export const FormContactScreen = ({}) => {
         },
     });
     return (
-
+        <KeyboardAwareScrollView style={styles.keyboard}>
             <View style={styles.viewForm}>
                 <Input
                     placeholder='Nombre'
@@ -114,6 +115,8 @@ export const FormContactScreen = ({}) => {
                 />
                 <Input
                     placeholder='Telefono'
+                    keyboardType="numeric"
+                    maxLength={10}
                     containerStyle={styles.input}
                     onChangeText={(text) => formik.setFieldValue('telefono', text)}
                     errorMessage={formik.errors.telefono}
@@ -146,6 +149,7 @@ export const FormContactScreen = ({}) => {
                 />
 
             </View>
+            </KeyboardAwareScrollView>
 
     )
 }
@@ -155,7 +159,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: 40,
         width: '80%',
-        height: '100%',
         backgroundColor: 'white',
         borderRadius: 20,
         alignSelf: 'center',
@@ -167,6 +170,7 @@ const styles = StyleSheet.create({
         color: 'gray',
     },
     containerBtn: {
+        paddingTop: 20,
         width: '70%',
         alignSelf: 'center',
     },
