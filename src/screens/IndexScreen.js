@@ -11,15 +11,13 @@ export const IndexScreen = (props) => {
     const {navigate} = navigation;
     const [session, setSession] = useState(null);
     var datos = [];
-
-
-    useEffect(()=>{
+    useEffect(() => {
         const auth = getAuth();
-        onAuthStateChanged(auth, (user)=>{
+        onAuthStateChanged(auth, (user) => {
             setSession(!!user)
         })
         setSession(true)
-    },[])
+    }, [])
 
     if(session){
         try {
@@ -31,6 +29,7 @@ export const IndexScreen = (props) => {
                     var childData = childSnapshot.val();
                     childData.key = childSnapshot.key;
                     datos.push(childData);
+
 
                 })
             console.log(datos);
@@ -59,11 +58,17 @@ export const IndexScreen = (props) => {
         return <LoginScreen></LoginScreen>
     }
 
+
 }
 
 const styles = StyleSheet.create({
     btn: {
         backgroundColor: "#7f55d0",
-        borderRadius:100,
+        borderRadius: 100,
+    },
+    agregar: {
+        backgroundColor: "#7f55d0",
+        borderRadius: 100,
+        width: 50
     }
 });
