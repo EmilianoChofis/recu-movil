@@ -9,11 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@react-native-firebase/storage": "^17.4.2",
-=======
     "@expo/vector-icons": "^13.0.0",
->>>>>>> 8dd83fd6a380fa362fa029b8e1f9999eba5553ae
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
