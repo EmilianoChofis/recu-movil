@@ -10,7 +10,8 @@ const firebaseConfig = {
   projectId: "recupera2-d80cf",
   storageBucket: "recupera2-d80cf.appspot.com",
   messagingSenderId: "155842882419",
-  appId: "1:155842882419:web:7935128ad37fd45d387306"
+  appId: "1:155842882419:web:7935128ad37fd45d387306",
+  baseUrl: "https://recupera2-d80cf-default-rtdb.firebaseio.com/"
 };
 
 // Initialize Firebase
