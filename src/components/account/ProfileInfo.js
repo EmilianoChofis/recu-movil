@@ -38,7 +38,7 @@ export const ProfileInfo = ({ setVisibleLoading, setTextLoading }) => {
 		const storage = getStorage();
 		const refImg = ref(storage, imgPath);
 		const url = await getDownloadURL(refImg);
-		updateProfile(auth.currentUser, { photoURL: url });
+		updateProfile(getAuth.currentUser, { photoURL: url });
 		setPhoto(url);
 		setVisibleLoading(false);
 	};
