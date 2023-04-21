@@ -45,10 +45,10 @@ export const FormContactScreen = ({}) => {
                         nombre: nombre,
                         telefono: telefono,
                         longitud: latitud,
-                        latitud: longitud,
-
+                        latitud: longitud
 
                     });
+        
                 } else {
                     numId = 1;
                     const db = getDatabase();
@@ -59,6 +59,7 @@ export const FormContactScreen = ({}) => {
                         longitud: latitud,
                         latitud: longitud,
                     });
+                    
                 }
             }).catch((error) => {
                 console.error(error);
@@ -146,6 +147,7 @@ export const FormContactScreen = ({}) => {
                     buttonStyle={styles.btn}
                     onPress={formik.handleSubmit}
                     loading={formik.isSubmitting}
+                    
                 />
 
             </View>
@@ -173,6 +175,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         width: '70%',
         alignSelf: 'center',
+        paddingTop: 40,
     },
     btn: {
         backgroundColor: 'green',
