@@ -9,6 +9,7 @@ export const IndexScreen = (props) => {
     const {navigation} = props
     const {navigate} = navigation
     const [session, setSession] = useState(null);
+    const [data, setData] = useState([]);
     const users = [
         {
             name: 'brynn',
@@ -40,16 +41,16 @@ export const IndexScreen = (props) => {
         setSession(true)
     },[])
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if(session){
             getAll().then(r => console.log(r))
         }
-    },[session])
+    },[session])*/
 
     return session ? (
         <View>
             <Card>
-                <Card.Title>CARD WITH DIVIDER</Card.Title>
+                <Card.Title>`${}`</Card.Title>
                 <Card.Divider />
                 {users.map((u, i) => {
                     return (

@@ -1,3 +1,4 @@
+/*
 import {child, get, getDatabase, ref, set} from "firebase/database";
 
 const dbRef = ref(getDatabase());
@@ -18,3 +19,4 @@ export async function getAll() {
         console.log(e);
     }
 }
+*/
