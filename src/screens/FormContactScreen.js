@@ -18,29 +18,11 @@ export const FormContactScreen = ({}) => {
         }
     );
 
-    const fileUpload = async (file) => {
-        const cloudUrl = 'https://api.cloudinary.com/v1_1/josamv/upload';
+    const [nombre, setNombre] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [latitud, setLatitud] = useState('');
+    const [longitud, setLongitud] = useState('');
 
-        const formData = new FormData();
-        formData.append('upload_preset', 'journal-app');
-        formData.append('file', file);
-        formData.append('folder', 'journal-app');
-
-        try {
-            const resp = await fetch(cloudUrl, {
-                method: 'POST',
-                body: formData,
-            });
-            if (resp.ok) {
-                const cloudResp = await resp.json();
-                return cloudResp.url;
-            } else {
-                throw await resp.json();
-            }
-        } catch (error) {
-            throw error;
-        }
-    };
     async function writeUserData(nombre, telefono, latitud, longitud) {
         try {
 
@@ -64,7 +46,7 @@ export const FormContactScreen = ({}) => {
                 } else {
                     numId = 1;
                     const db = getDatabase();
-                    set(ref(db, 'lugares/' + numId), {
+                    set(ref(db, 'contactos/' + numId), {
                         id: numId,
                         nombre: nombre,
                         telefono: telefono,
@@ -120,7 +102,7 @@ export const FormContactScreen = ({}) => {
                 <Input
                     placeholder='Telefono'
                     containerStyle={styles.input}
-                    onChangeText={(number) => formik.setFieldValue('telefono', number)}
+                    onChangeText={(text) => formik.setFieldValue('telefono', text)}
                     errorMessage={formik.errors.telefono}
                 />
                 <MapView
