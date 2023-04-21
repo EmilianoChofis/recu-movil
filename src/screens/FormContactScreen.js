@@ -8,6 +8,7 @@ import Toast from "react-native-toast-message";
 import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
 import {writeUserData} from "./functions/newContact";
 import { getAuth } from 'firebase/auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export const FormContactScreen = ({}) => {
     const dbRef = ref(getDatabase());
@@ -99,7 +100,7 @@ export const FormContactScreen = ({}) => {
         },
     });
     return (
-
+        <KeyboardAwareScrollView style={styles.keyboard}>
             <View style={styles.viewForm}>
                 <Input
                     placeholder='Nombre'
@@ -143,6 +144,7 @@ export const FormContactScreen = ({}) => {
                 />
 
             </View>
+            </KeyboardAwareScrollView>
 
     )
 }
