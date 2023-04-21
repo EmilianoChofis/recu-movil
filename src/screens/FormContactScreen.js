@@ -66,19 +66,27 @@ export const FormContactScreen = ({}) => {
         initialValues: {
             nombre: '',
             telefono: '',
-            latitud: '',
-            longitud: '',
+            latitud: origin.latitude,
+            longitud: origin.longitude,
 
         },
         validationSchema: Yup.object({
             nombre: Yup.string()
                 .required('El nombre es obligatorio'),
-            telefono: Yup.string().required('El telefono es obligatorio')
+            //telefono obligatorio no mayor a 10 digitos y no menor a 10
+            telefono: Yup.string().required('El telefono es obligatorio').min(10, 'El telefono debe tener 10 digitos').max(10, 'El telefono debe tener 10 digitos'),
         }),
         validateOnChange: false,
         onSubmit: async (formData) => {
             try {
                 await writeUserData(formData.nombre, formData.telefono, formData.latitud, formData.longitud);
+                Toast.show({
+                    type: 'success',
+                    position: 'bottom',
+                    text1: 'Contacto registrado',
+                    text2: 'Se ha registrado el contacto correctamente',
+                });
+
             } catch (error) {
                 Toast.show({
                     type: 'error',
