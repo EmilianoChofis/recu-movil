@@ -1,11 +1,11 @@
-import {StyleSheet, View, Text} from "react-native";
-import {Button, Icon, Input} from "react-native-elements";
-import React, {useState} from "react";
-import {useFormik} from "formik";
+import { StyleSheet, View, Text } from "react-native";
+import { Button, Icon, Input } from "react-native-elements";
+import React, { useState } from "react";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import {signInWithEmailAndPassword, getAuth} from "firebase/auth";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import Toast from "react-native-toast-message";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function LoginForm() {
@@ -38,8 +38,10 @@ export default function LoginForm() {
                     auth,
                     formData.email,
                     formData.pass,
-                    console.log("login exitoso")
+                    
                 )
+
+            
                 //se puede usar las siguientes formas
                 navigation.navigate("indexS")
                 //navigation.goBack()
@@ -47,7 +49,7 @@ export default function LoginForm() {
                 Toast.show({
                     type: "error",
                     position: "bottom",
-                    text1: "Error al iniciar sesión",
+                    text1: "Error al iniciar sesión"
                 })
                 console.log("errooooor" + error)
             }
@@ -56,18 +58,18 @@ export default function LoginForm() {
     return (
         <View style={styles.viewForm}>
             <Input containerStyle={styles.input} placeholder='Correo Electrónico'
-                   rightIcon={<Icon type="material-community" name="at" iconStyle={styles.icon}/>}
-                   onChangeText={text => formik.setFieldValue("email", text)} errorMessage={formik.errors.email}
+                rightIcon={<Icon type="material-community" name="at" iconStyle={styles.icon} />}
+                onChangeText={text => formik.setFieldValue("email", text)} errorMessage={formik.errors.email}
             />
             <Input containerStyle={styles.input} placeholder='Contraseña' secureTextEntry={!pass}
-                   rightIcon={<Icon type="material-community" name={pass ? "eye-off-outline" : "eye-outline"}
-                                    iconStyle={styles.icon} onPress={showPass}/>}
-                   onChangeText={text => formik.setFieldValue("pass", text)} errorMessage={formik.errors.pass}
+                rightIcon={<Icon type="material-community" name={pass ? "eye-off-outline" : "eye-outline"}
+                    iconStyle={styles.icon} onPress={showPass} />}
+                onChangeText={text => formik.setFieldValue("pass", text)} errorMessage={formik.errors.pass}
             />
             <Button title={"Iniciar Sesión"} containerStyle={styles.containerBtn} buttonStyle={styles.btn}
-                    onPress={formik.handleSubmit} loading={formik.isSubmitting}
+                onPress={formik.handleSubmit} loading={formik.isSubmitting}
             />
-             <Text style={styles.login} onPress={irRegistro}>Ir a Registro</Text>
+            <Text style={styles.login} onPress={irRegistro}>Ir a Registro</Text>
         </View>
     )
 }
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    btn:{
+    btn: {
         borderRadius: 10,
         backgroundColor: '#00a680',
     }

@@ -23,11 +23,11 @@ export default function AppNavigation() {
 
         <>
             <Tab.Navigator screenOptions={({route}) => ({
-                headerShown: false, tabBarActiveTintColor: "purple",
+                headerShown: false, tabBarActiveTintColor: "#00a680",
                 tabBarInactiveTintColor: "black",
                 tabBarIcon: ({color, size}) => showIcons(route, color, size)
             })}>
-                <Tab.Screen name="index" component={IndexStack} options={{title: "Inicio"}}/>
+                <Tab.Screen name="index" component={IndexStack} options={{title: "Contactos"}}/>
                 <Tab.Screen name="profile" component={ProfileStack} options={{title: "Perfil"}}/>
             </Tab.Navigator>
         </>
@@ -47,10 +47,10 @@ export default function AppNavigation() {
 function showIcons(route, color, size) {
     let icon;
     if (route.name === "index") {
-        icon = "home-circle"
+        icon = "account-group"
     }
     if (route.name === "profile") {
-        icon = "home-circle"
+        icon = "account-circle"
     }
 
 
