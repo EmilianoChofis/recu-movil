@@ -6,10 +6,10 @@ import * as Yup from "yup";
 
 import Toast from "react-native-toast-message";
 import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
-import {writeUserData} from "../utils/newContact";
+import {writeUserData} from "./functions/newContact";
 
 export const FormContactScreen = ({}) => {
-
+    const dbRef = ref(getDatabase());
 
     const fileUpload = async (file) => {
         const cloudUrl = 'https://api.cloudinary.com/v1_1/josamv/upload';
@@ -34,7 +34,45 @@ export const FormContactScreen = ({}) => {
             throw error;
         }
     };
+    async function writeUserData(nombre, telefono, colonia, calle, cp) {
+        try {
 
+            let numId = 1;
+            get(child(dbRef, `contactos/`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    // Obtener el número de elementos en el objeto
+                    const conteo = Object.keys(data).length;
+                    numId = conteo + 1;
+                    const db = getDatabase();
+                    set(ref(db, 'contactos/' + numId), {
+                        id: numId,
+                        nombre: nombre,
+                        telefono: telefono,
+                        colonia: colonia,
+                        calle: calle,
+                        cp: cp,
+
+                    });
+                } else {
+                    numId = 1;
+                    const db = getDatabase();
+                    set(ref(db, 'lugares/' + numId), {
+                        id: numId,
+                        nombre: nombre,
+                        telefono: telefono,
+                        colonia: colonia,
+                        calle:calle,
+                        cp: cp,
+                    });
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }catch (e) {
+            console.log(e);
+        }
+    }
 
     const formik = useFormik({
         initialValues: {

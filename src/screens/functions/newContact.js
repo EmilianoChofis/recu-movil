@@ -1,7 +1,7 @@
-import {child, get, getDatabase, ref, set} from "firebase/database";
+/*import {child, get, getDatabase, ref, set} from "firebase/database";
 
 const dbRef = ref(getDatabase());
-export async function writeUserData(nombre, telefono, colonia, calle, cp) {
+export *//*async function writeUserData(nombre, telefono, colonia, calle, cp) {
     try {
 
         let numId = 1;
@@ -39,4 +39,4 @@ export async function writeUserData(nombre, telefono, colonia, calle, cp) {
     }catch (e) {
         console.log(e);
     }
-}
+}*/
