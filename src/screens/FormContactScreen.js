@@ -9,6 +9,7 @@ import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
 import {writeUserData} from "./functions/newContact";
 import { getAuth } from 'firebase/auth';
 
+
 export const FormContactScreen = ({}) => {
     const dbRef = ref(getDatabase());
     const [origin, setOrigin] = React.useState(
@@ -25,6 +26,9 @@ export const FormContactScreen = ({}) => {
 
     async function writeUserData(nombre, telefono, latitud, longitud) {
         try {
+            let correo = getAuth().currentUser.email;
+            //quitar de correo todos los caracteres especiales
+            correo = correo.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
 
             let numId = 1;
             get(child(dbRef, `contactos/`)).then((snapshot) => {
@@ -33,20 +37,21 @@ export const FormContactScreen = ({}) => {
                     // Obtener el número de elementos en el objeto
                     const conteo = Object.keys(data).length;
                     numId = conteo + 1;
+
                     const db = getDatabase();
-                    set(ref(db, 'contactos/' + numId), {
+                    set(ref(db, 'contactos/' + correo+"/"+numId), {
                         id: numId,
                         nombre: nombre,
                         telefono: telefono,
                         longitud: latitud,
                         latitud: longitud,
-                        userowner:getAuth().currentUser.email
+
 
                     });
                 } else {
                     numId = 1;
                     const db = getDatabase();
-                    set(ref(db, 'contactos/' + numId), {
+                    set(ref(db, 'contactos/' + correo+"/"+numId), {
                         id: numId,
                         nombre: nombre,
                         telefono: telefono,
