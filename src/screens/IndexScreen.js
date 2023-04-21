@@ -23,7 +23,7 @@ export const IndexScreen = (props) => {
     return session ? (
         <View>
 
-            <Button title={"+"} Icon={"plus"} onPress={()=>navigate("formS", {screen: "formS"}) }></Button>
+            <Button style={styles.agrgear}title={"+"} Icon={"plus"} onPress={()=>navigate("formS", {screen: "formS"}) }></Button>
         </View>
     ) : <LoginScreen></LoginScreen>
 }
@@ -32,5 +32,10 @@ const styles = StyleSheet.create({
     btn: {
         backgroundColor: "#7f55d0",
         borderRadius:100,
+    },
+    agregar:{
+        backgroundColor: "#7f55d0",
+        borderRadius:100,
+        width: 50
     }
 });

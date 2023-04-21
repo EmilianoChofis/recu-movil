@@ -109,6 +109,8 @@ export const FormContactScreen = ({}) => {
                 />
                 <Input
                     placeholder='Telefono'
+                    keyboardType="numeric"
+                    maxLength={10}
                     containerStyle={styles.input}
                     onChangeText={(text) => formik.setFieldValue('telefono', text)}
                     errorMessage={formik.errors.telefono}
@@ -150,7 +152,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: 40,
         width: '80%',
-        height: '100%',
         backgroundColor: 'white',
         borderRadius: 20,
         alignSelf: 'center',
@@ -162,6 +163,7 @@ const styles = StyleSheet.create({
         color: 'gray',
     },
     containerBtn: {
+        paddingTop: 20,
         width: '70%',
         alignSelf: 'center',
     },
