@@ -1,17 +1,16 @@
-import { Button, StyleSheet, Text, View, FlatList} from "react-native";
-import React, { useEffect, useState } from "react";
-import { LoginScreen } from "./LoginScreen";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { child, get, getDatabase, onValue } from "firebase/database";
-import { ref } from "firebase/storage";
-
-
-
+import {Button, StyleSheet, Text, View,FlatList } from "react-native";
+import React, {useEffect, useState} from "react";
+import {LoginScreen} from "./LoginScreen";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import database from '@react-native-firebase/database';
+import {getDatabase, ref, set, onValue, get, child} from "firebase/database";
+import {ContactItem} from "../components/ContactItem";
 export const IndexScreen = (props) => {
-    const { navigation } = props;
-    const { navigate } = navigation;
+    const dbRef = ref(getDatabase());
+    const {navigation} = props;
+    const {navigate} = navigation;
     const [session, setSession] = useState(null);
-
+    var datos = [];
     useEffect(() => {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
@@ -20,13 +19,46 @@ export const IndexScreen = (props) => {
         setSession(true)
     }, [])
 
+    if(session){
+        try {
+            let correo = getAuth().currentUser.email;
+            //quitar de correo todos los caracteres especiales
+            correo = correo.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+            get(child(dbRef, `contactos/`+correo)).then((snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    var childData = childSnapshot.val();
+                    childData.key = childSnapshot.key;
+                    datos.push(childData);
 
-    return session ? (
-        <View>
-            
-            <Button style={styles.agrgear} title={"+"} Icon={"plus"} onPress={() => navigate("formS", { screen: "formS" })}></Button>
-        </View>
-    ) : <LoginScreen></LoginScreen>
+
+                })
+            console.log(datos);
+
+            })
+        }catch (e) {
+            console.log(e);
+        }
+    }
+
+
+
+    try {
+        return session ? (
+            <View>
+                <FlatList>
+                    data={datos}
+                    renderItem={({item}) => <ContactItem item={item} />}
+                    keyExtractor={item => item.key}
+                </FlatList>
+                <Button title={"+"} Icon={"plus"} onPress={()=>navigate("formS", {screen: "formS"}) }></Button>
+            </View>
+        ) : <LoginScreen></LoginScreen>
+    }catch (e) {
+        console.log(e);
+        return <LoginScreen></LoginScreen>
+    }
+
+
 }
 
 const styles = StyleSheet.create({

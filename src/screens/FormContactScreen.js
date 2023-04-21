@@ -106,7 +106,7 @@ export const FormContactScreen = ({}) => {
         },
     });
     return (
-        <KeyboardAwareScrollView style={styles.keyboard}>
+
             <View style={styles.viewForm}>
                 <Input
                     placeholder='Nombre'
@@ -151,7 +151,7 @@ export const FormContactScreen = ({}) => {
                 />
 
             </View>
-            </KeyboardAwareScrollView>
+
 
     )
 }
