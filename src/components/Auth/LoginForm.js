@@ -38,7 +38,7 @@ export default function LoginForm() {
                     auth,
                     formData.email,
                     formData.pass,
-                    console.log("login exitoso")
+
                 )
                 //se puede usar las siguientes formas
                 navigation.navigate("indexS")
